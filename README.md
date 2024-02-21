@@ -1,7 +1,7 @@
 # Markdown Printer
 Prints markdown files to PDF
 ## Usage
-`mdprinter test.md -s air` output PDF `test.pdf`
+`mdprinter test.md -s air` outputs PDF file `test.pdf`
 ## Styles
 4 styles from [https://markdowncss.github.io/](https://markdowncss.github.io/) available:
 - *modest*
