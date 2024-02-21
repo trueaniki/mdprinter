@@ -1,0 +1,6 @@
+version: '3'
+
+tasks:
+  build:
+    cmds:
+      - go build -o bin/mdprinter cmd/mdprinter/main.go
