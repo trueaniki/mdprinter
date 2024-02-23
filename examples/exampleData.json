@@ -1,8 +1,8 @@
 {
-  "Data": {
-    "Id": 1,
-    "Name": "John",
-    "Age": 25,
-    "Address": "New York"
+  "data": {
+    "id": 1,
+    "name": "John",
+    "age": 25,
+    "address": "New York"
   }
 }
