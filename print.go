@@ -2,7 +2,6 @@ package mdprinter
 
 import (
 	"context"
-	_ "embed"
 	"os"
 	"time"
 
@@ -11,19 +10,7 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-//go:embed css/modest.css
-var modest string
-
-//go:embed css/retro.css
-var retro string
-
-//go:embed css/splendor.css
-var splendor string
-
-//go:embed css/air.css
-var air string
-
-func Print(data []byte, style string) ([]byte, error) {
+func Print(data []byte, css string) ([]byte, error) {
 	ctx, cancel := chromedp.NewContext(context.Background())
 	defer cancel()
 	// save html to a temp file
@@ -42,7 +29,7 @@ func Print(data []byte, style string) ([]byte, error) {
 		// Add css to the page
 		chromedp.Evaluate(`(function() {
 			var style = document.createElement('style');
-			style.innerHTML = `+"`"+chooseStyle(style)+"`"+`;
+			style.innerHTML = `+"`"+css+"`"+`;
 			document.head.appendChild(style);
 		})()`, nil),
 		chromedp.ActionFunc(func(ctx context.Context) error {
@@ -58,19 +45,4 @@ func Print(data []byte, style string) ([]byte, error) {
 	}
 
 	return buf, nil
-}
-
-func chooseStyle(style string) string {
-	switch style {
-	case "modest":
-		return modest
-	case "retro":
-		return retro
-	case "splendor":
-		return splendor
-	case "air":
-		return air
-	default:
-		return modest
-	}
 }
