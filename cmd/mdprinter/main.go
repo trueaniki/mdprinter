@@ -13,12 +13,17 @@ import (
 var version = "0.0.0"
 
 var opts struct {
-	Style   string `short:"s" long:"style" description:"style of the pdf, available styles are: modest, retro, air, splendor" default:"modest"`
-	Align   string `short:"a" long:"align" description:"align of the pdf content, available aligns are: left, center, right" default:"left"`
-	Custom  string `short:"c" long:"custom" description:"custom css file path, if provided, it will override the style and align options" default:"none"`
-	Data    string `short:"d" long:"data" description:"JSON data file path, if provided, it will interpolate the data into the markdown file" default:"none"`
-	Output  string `short:"o" long:"output" description:"output pdf file path" default:"none"`
-	Version bool   `short:"v" long:"version" description:"print version"`
+	Style       string      `short:"s" long:"style" description:"style of the pdf, available styles are: modest, retro, air, splendor" default:"modest"`
+	Align       string      `short:"a" long:"align" description:"align of the pdf content, available aligns are: left, center, right" default:"left"`
+	Custom      string      `short:"c" long:"custom" description:"custom css file path, if provided, it will override the style and align options" default:"none"`
+	Data        string      `short:"d" long:"data" description:"JSON data file path, if provided, it will interpolate the data into the markdown file" default:"none"`
+	Output      string      `short:"o" long:"output" description:"output pdf file path" default:"none"`
+	Version     bool        `short:"v" long:"version" description:"print version"`
+	Positionals positionals `positional-args:"filename" required:"true"`
+}
+
+type positionals struct {
+	Filename string `positional-arg-name:"filename" required:"true"`
 }
 
 func main() {
