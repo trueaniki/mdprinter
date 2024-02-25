@@ -4,3 +4,12 @@ tasks:
   build:
     cmds:
       - go build -o bin/mdprinter cmd/mdprinter/main.go
+  install:
+    cmds:
+      - task: build
+      - cp bin/mdprinter /usr/local/bin/mdprinter
+      - chmod +x /usr/local/bin/mdprinter
+      - task: clean
+  clean:
+    cmds:
+      - rm -rf bin
