@@ -10,7 +10,7 @@ import (
 	"github.com/trueaniki/mdprinter"
 )
 
-var version = "0.1.0"
+var version = "0.2.0"
 
 var opts struct {
 	Style       string      `short:"s" long:"style" description:"style of the pdf, available styles are: modest, retro, air, splendor" default:"modest"`
