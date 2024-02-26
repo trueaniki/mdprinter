@@ -13,3 +13,11 @@ tasks:
   clean:
     cmds:
       - rm -rf bin
+  test:
+    cmds:
+      - go test -v .
+  run-example:
+    cmds:
+      - task: build
+      - bin/mdprinter examples/example.md -d examples/exampleData.json -s air
+  
