@@ -6,8 +6,8 @@ require (
 	github.com/briandowns/spinner v1.23.0
 	github.com/chromedp/cdproto v0.0.0-20240214232516-ad4608604e9e
 	github.com/chromedp/chromedp v0.9.5
-	github.com/gomarkdown/markdown v0.0.0-20231222211730-1d6d20845b47
 	github.com/jessevdk/go-flags v1.5.0
+	github.com/yuin/goldmark v1.7.0
 )
 
 require (
