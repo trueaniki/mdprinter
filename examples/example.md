@@ -20,6 +20,6 @@ Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
 ---
 
 # Interpolation
-### {{ .data.id }}, {{ .data.Name}}
+### {{ .data.id }}, {{ .data.name}}
 #### **{{ .data.age }}**
 #### *{{ .data.address }}*
