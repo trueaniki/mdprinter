@@ -10,8 +10,14 @@ import (
 	"github.com/chromedp/chromedp"
 )
 
-func Print(data []byte, css string) ([]byte, error) {
-	ctx, cancel := chromedp.NewContext(context.Background())
+func Print(data []byte) ([]byte, error) {
+	allocCtx, cancel := chromedp.NewExecAllocator(context.Background(), append(chromedp.DefaultExecAllocatorOptions[:],
+		chromedp.Flag("headless", true),
+		chromedp.Flag("disable-gpu", true),
+		chromedp.WindowSize(1920, 1080),
+	)...)
+	defer cancel()
+	ctx, cancel := chromedp.NewContext(allocCtx)
 	defer cancel()
 	// save html to a temp file
 	tmpFile, err := os.CreateTemp("", "*.html")
@@ -25,15 +31,11 @@ func Print(data []byte, css string) ([]byte, error) {
 	s.Start()
 	err = chromedp.Run(ctx,
 		chromedp.Navigate("file://"+tmpFile.Name()),
-		chromedp.WaitVisible("body"),
-		// Add css to the page
-		chromedp.Evaluate(`(function() {
-			var style = document.createElement('style');
-			style.innerHTML = `+"`"+css+"`"+`;
-			document.head.appendChild(style);
-		})()`, nil),
+		chromedp.Sleep(1*time.Second),
 		chromedp.ActionFunc(func(ctx context.Context) error {
-			buf, _, err = page.PrintToPDF().WithPrintBackground(true).Do(ctx)
+			printAction := page.
+				PrintToPDF()
+			buf, _, err = printAction.Do(ctx)
 			if err != nil {
 				return err
 			}
