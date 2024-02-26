@@ -20,6 +20,7 @@ var opts struct {
 	Output      string      `short:"o" long:"output" description:"output pdf file path" default:"none"`
 	Version     bool        `short:"v" long:"version" description:"print version"`
 	Positionals positionals `positional-args:"filename" required:"true"`
+	Html        bool        `long:"html" description:"output html instead of pdf"`
 }
 
 type positionals struct {
@@ -36,7 +37,7 @@ func main() {
 		os.Exit(0)
 	}
 
-	mdPath := args[1]
+	mdPath := args[0]
 
 	md, err := os.ReadFile(mdPath)
 	if err != nil {
@@ -62,7 +63,21 @@ func main() {
 		html = mdprinter.Interpolate(html, jsonData)
 	}
 
-	buf, err := mdprinter.Print(html, mdprinter.FormupCss(opts.Style, opts.Align, opts.Custom))
+	css := mdprinter.FormupCss(opts.Style, opts.Align, opts.Custom)
+	// append css to the html
+	html = append(html, []byte("<style>"+css+"</style>")...)
+
+	if opts.Html {
+		f, err := os.Create(pdfPath)
+		if err != nil {
+			printAndExit(err)
+		}
+		f.Write(html)
+		f.Close()
+		return
+	}
+
+	buf, err := mdprinter.Print(html)
 	if err != nil {
 		printAndExit(err)
 	}
