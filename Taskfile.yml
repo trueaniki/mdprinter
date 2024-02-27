@@ -4,6 +4,15 @@ tasks:
   build:
     cmds:
       - go build -o bin/mdprinter cmd/mdprinter/main.go
+  build-linux:
+    cmds:
+      - GOOS=linux GOARCH=amd64 go build -o bin/mdprinter cmd/mdprinter/main.go
+  build-windows:
+    cmds:
+      - GOOS=windows GOARCH=amd64 go build -o bin/mdprinter.exe cmd/mdprinter/main.go
+  build-darwin:
+    cmds:
+      - GOOS=darwin GOARCH=amd64 go build -o bin/mdprinter cmd/mdprinter/main.go
   install:
     cmds:
       - task: build
