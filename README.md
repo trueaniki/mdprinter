@@ -1,7 +1,9 @@
 # Markdown Printer
 Prints markdown files to PDF.
-## Usage
+## CLI Usage
 `mdprinter test.md -s air` outputs PDF file `test.pdf`.
+## API Usage
+*TBA*
 ## Styles
 ### Built-in styles
 4 styles from [https://markdowncss.github.io/](https://markdowncss.github.io/) available:
