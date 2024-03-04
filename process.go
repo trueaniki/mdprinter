@@ -17,13 +17,21 @@ func New() *Processor {
 }
 
 func (p *Processor) Process(md []byte) ([]byte, error) {
+	return Print(p.generateHtml(md))
+}
+
+func (p *Processor) Html(md []byte) []byte {
+	return p.generateHtml(md)
+}
+
+func (p *Processor) generateHtml(md []byte) []byte {
 	html := Parse(md)
 	if p.jsonData != nil {
 		html = Interpolate(html, p.jsonData)
 	}
 	css := FormupCss(p.style, p.align, p.customCss)
 	html = append(html, []byte("<style>"+css+"</style>")...)
-	return Print(html)
+	return html
 }
 
 func (p *Processor) WithInterpolation(jsonData interface{}) *Processor {

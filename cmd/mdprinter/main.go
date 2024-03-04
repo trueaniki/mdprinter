@@ -48,7 +48,7 @@ func main() {
 		pdfPath = opts.Output
 	}
 
-	html := mdprinter.Parse(md)
+	p := mdprinter.New()
 
 	if opts.Data != "none" {
 		data, err := os.ReadFile(opts.Data)
@@ -60,24 +60,25 @@ func main() {
 		if err != nil {
 			printAndExit(err)
 		}
-		html = mdprinter.Interpolate(html, jsonData)
+		p.WithInterpolation(jsonData)
 	}
 
-	css := mdprinter.FormupCss(opts.Style, opts.Align, opts.Custom)
-	// append css to the html
-	html = append(html, []byte("<style>"+css+"</style>")...)
+	p.
+		WithStyle(opts.Style).
+		WithAlign(opts.Align).
+		WithCustomCss(opts.Custom)
 
 	if opts.Html {
 		f, err := os.Create(pdfPath)
 		if err != nil {
 			printAndExit(err)
 		}
-		f.Write(html)
+		f.Write(p.Html(md))
 		f.Close()
 		return
 	}
 
-	buf, err := mdprinter.Print(html)
+	buf, err := p.Process(md)
 	if err != nil {
 		printAndExit(err)
 	}
