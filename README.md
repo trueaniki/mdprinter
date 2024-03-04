@@ -3,7 +3,21 @@ Prints markdown files to PDF.
 ## CLI Usage
 `mdprinter test.md -s air` outputs PDF file `test.pdf`.
 ## API Usage
-*TBA*
+```go
+p := mdprinter.New()
+pdfBuf, err := p.
+  WithInterpolation(struct{
+    Name string
+	  Age string
+  }{
+	  Name: "John",
+	  Age: "25",
+  }).
+  WithStyle("air").
+  WithAlign("left").
+  WithCustomCss("./mycustom.css").
+  Process(markdownData)
+```
 ## Styles
 ### Built-in styles
 4 styles from [https://markdowncss.github.io/](https://markdowncss.github.io/) available:
