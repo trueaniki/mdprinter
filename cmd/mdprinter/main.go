@@ -10,6 +10,7 @@ import (
 	"github.com/trueaniki/mdprinter"
 )
 
+var appName = "Markdown Printer"
 var version = "v0.3.0"
 
 var opts struct {
@@ -33,7 +34,7 @@ func main() {
 		printAndExit(err)
 	}
 	if opts.Version {
-		fmt.Println(version)
+		fmt.Println(appName, version, "by Aniki")
 		os.Exit(0)
 	}
 
