@@ -15,6 +15,7 @@ tasks:
       - GOOS=darwin GOARCH=amd64 go build -o bin/mdprinter cmd/mdprinter/main.go
   install:
     cmds:
+      - task: clean
       - task: build
       - cp bin/mdprinter /usr/local/bin/mdprinter
       - chmod +x /usr/local/bin/mdprinter
