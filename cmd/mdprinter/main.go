@@ -12,7 +12,7 @@ import (
 
 var appName = "Markdown Printer"
 var appDesc = "A simple markdown to pdf/html printer"
-var version = "v0.3.0"
+var version = "v0.3.1"
 
 type Conf struct {
 	Style   string `type:"flag" name:"style" alias:"s" default:"modest" description:"Style of the pdf, available styles are: modest, retro, air, splendor"`
