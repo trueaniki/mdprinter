@@ -6,53 +6,53 @@ import (
 	"os"
 	"path"
 
-	"github.com/jessevdk/go-flags"
+	"github.com/trueaniki/admiral"
 	"github.com/trueaniki/mdprinter"
 )
 
 var appName = "Markdown Printer"
+var appDesc = "A simple markdown to pdf/html printer"
 var version = "v0.3.0"
 
-var opts struct {
-	Style       string      `short:"s" long:"style" description:"style of the pdf, available styles are: modest, retro, air, splendor" default:"modest"`
-	Align       string      `short:"a" long:"align" description:"align of the pdf content, available aligns are: left, center, right" default:"left"`
-	Custom      string      `short:"c" long:"custom" description:"custom css file path, if provided, it will override the style and align options" default:"none"`
-	Data        string      `short:"d" long:"data" description:"JSON data file path, if provided, it will interpolate the data into the markdown file" default:"none"`
-	Output      string      `short:"o" long:"output" description:"output pdf file path" default:"none"`
-	Version     bool        `short:"v" long:"version" description:"print version"`
-	Positionals positionals `positional-args:"filename" required:"true"`
-	Html        bool        `long:"html" description:"output html instead of pdf"`
-}
-
-type positionals struct {
-	Filename string `positional-arg-name:"filename" required:"true"`
+type Conf struct {
+	Style   string `type:"flag" name:"style" alias:"s" default:"modest" description:"Style of the pdf, available styles are: modest, retro, air, splendor"`
+	Align   string `type:"flag" name:"align" alias:"a" default:"left" description:"Align of the pdf content, available aligns are: left, center, right"`
+	Custom  string `type:"flag" name:"custom" alias:"c" default:"none" description:"Custom css file path, if provided, it will override the style and align options"`
+	Data    string `type:"flag" name:"data" alias:"d" default:"none" description:"JSON data file path, if provided, it will interpolate the data into the markdown file"`
+	Output  string `type:"flag" name:"output" alias:"o" default:"none" description:"Output pdf file path"`
+	Version bool   `type:"flag" name:"version" alias:"v" description:"Print version"`
+	Html    bool   `type:"flag" name:"html" description:"Output html instead of pdf"`
+	Input   string `type:"arg" name:"filename" required:"true" description:"Markdown file path"`
 }
 
 func main() {
-	args, err := flags.ParseArgs(&opts, os.Args)
-	if err != nil {
-		printAndExit(err)
-	}
-	if opts.Version {
+	conf := &Conf{}
+
+	a := admiral.New(appName, appDesc)
+	a.Configure(conf)
+	a.Flag("version").Handle(func(_ interface{}) {
 		fmt.Println(appName, version, "by Aniki")
 		os.Exit(0)
-	}
+	})
 
-	mdPath := args[0]
-
-	md, err := os.ReadFile(mdPath)
+	_, err := a.Parse(os.Args)
 	if err != nil {
 		printAndExit(err)
 	}
-	pdfPath := getPDFPath(mdPath)
-	if opts.Output != "none" {
-		pdfPath = opts.Output
+
+	md, err := os.ReadFile(conf.Input)
+	if err != nil {
+		printAndExit(err)
+	}
+	pdfPath := getPDFPath(conf.Input)
+	if conf.Output != "none" {
+		pdfPath = conf.Output
 	}
 
 	p := mdprinter.New()
 
-	if opts.Data != "none" {
-		data, err := os.ReadFile(opts.Data)
+	if conf.Data != "none" {
+		data, err := os.ReadFile(conf.Data)
 		if err != nil {
 			printAndExit(err)
 		}
@@ -65,11 +65,11 @@ func main() {
 	}
 
 	p.
-		WithStyle(opts.Style).
-		WithAlign(opts.Align).
-		WithCustomCss(opts.Custom)
+		WithStyle(conf.Style).
+		WithAlign(conf.Align).
+		WithCustomCss(conf.Custom)
 
-	if opts.Html {
+	if conf.Html {
 		f, err := os.Create(pdfPath)
 		if err != nil {
 			printAndExit(err)
