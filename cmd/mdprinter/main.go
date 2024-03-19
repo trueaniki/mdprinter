@@ -10,6 +10,7 @@ import (
 	"github.com/trueaniki/mdprinter"
 )
 
+var appCommand = "mdprinter"
 var appName = "Markdown Printer"
 var appDesc = "A simple markdown to pdf/html printer"
 var version = "v0.3.1"
@@ -28,7 +29,7 @@ type Conf struct {
 func main() {
 	conf := &Conf{}
 
-	a := admiral.New(appName, appDesc)
+	a := admiral.New(appCommand, appDesc)
 	a.Configure(conf)
 	a.Flag("version").Handle(func(_ interface{}) {
 		fmt.Println(appName, version, "by Aniki")
