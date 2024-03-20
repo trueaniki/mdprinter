@@ -13,6 +13,11 @@ tasks:
   build-darwin:
     cmds:
       - GOOS=darwin GOARCH=amd64 go build -o bin/mdprinter cmd/mdprinter/main.go
+  test_e2e:
+    cmds:
+      - task: build
+      - mkdir -p test_output
+      - go test -v ./e2e_test.go
   install:
     cmds:
       - task: clean
