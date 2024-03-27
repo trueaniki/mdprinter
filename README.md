@@ -3,6 +3,7 @@ Prints markdown files to PDF.
 ## CLI Usage
 `mdprinter test.md -s air` outputs PDF file `test.pdf`.
 ## API Usage
+It's also possible to use mdprinter as package in other apps.
 ```go
 p := mdprinter.New()
 pdfBuf, err := p.
