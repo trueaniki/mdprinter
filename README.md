@@ -1,9 +1,11 @@
 # Markdown Printer
 Prints markdown files to PDF.
+## Requiremets
+You need Chromium to be installed locally to run this program.
 ## CLI Usage
 `mdprinter test.md -s air` outputs PDF file `test.pdf`.
 ## API Usage
-It's also possible to use mdprinter as package in other apps.
+It's also possible to use mdprinter as package in other apps:
 ```go
 p := mdprinter.New()
 pdfBuf, err := p.
